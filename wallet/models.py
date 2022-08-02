@@ -1,6 +1,4 @@
 from datetime import datetime
-from pyexpat import model
-# from tkinter import Y
 from django.db import models
 
 class Customer(models.Model):
@@ -13,7 +11,7 @@ class Customer(models.Model):
 
 
 class Wallet(models.Model):  
-   customer = models.ForeignKey(to=Customer,on_delete=models.CASCADE,null=True)
+   customer = models.ForeignKey(default=1,on_delete=models.CASCADE, to = Customer)
    currency = models.CharField(max_length=50,null=True)
    pin = models.PositiveSmallIntegerField()
    date_created = models.DateTimeField(default=datetime.now)
@@ -23,7 +21,6 @@ class Wallet(models.Model):
 
 class Receipt(models.Model):
     receiptdate=models.DateTimeField(default=datetime.now)
-    # transaction=models.ForeignKey(Transaction,on_delete=models.CASCADE,null=True)
     number=models.IntegerField(null=True)
     file=models.FileField()
     receipttype=models.CharField(max_length=50,null=True)
@@ -45,7 +42,7 @@ class Transaction(models.Model):
     transaction_type=models.CharField(max_length=15,null=True)
     transaction_charge=models.IntegerField(null=True)
     transactiondateandtime=models.DateTimeField(default=datetime.now)
-    Receipt=models.OneToOneField(on_delete=models.CASCADE,to=Receipt)
+    receipt=models.OneToOneField(on_delete=models.CASCADE,to=Receipt)
     origin_account=models.ForeignKey(Account,on_delete=models.CASCADE,null=True,related_name="account_a")
     destination_account=models.ForeignKey(Account,on_delete=models.CASCADE,null=True,related_name="account_b")
 
@@ -75,7 +72,7 @@ class Loan(models.Model):
     loan_number=models.IntegerField(null=True)
     amount=models.BigIntegerField(null=True)
     dateandtime=models.DateTimeField(default=datetime.now)
-    # wallet=models.ForeignKey(null=True,on_delete=models.CASCADE,to=Wallet)
+    wallet=models.ForeignKey(null=True,on_delete=models.CASCADE,to=Wallet)
     loanbalance=models.IntegerField(null=True)
     loanterm=models.IntegerField(null=True)
     payduedate=models.DateTimeField(default=datetime.now)

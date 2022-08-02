@@ -1,5 +1,4 @@
 
-from ast import Load
 from django.contrib import admin
 from .models import Account, Card, Customer, Loan, Notification, Receipt, Reward, Thirdparty, Transaction, Wallet 
 
