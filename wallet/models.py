@@ -4,14 +4,14 @@ from django.db import models
 class Customer(models.Model):
     first_name = models.CharField(null=True,max_length=100)
     last_name = models.CharField(null=True,max_length=100)
-    Adress = models.TextField(null=True,max_length=100)
+    address = models.TextField(null=True,max_length=100)
     email = models.EmailField(null=True,max_length=150)
     phonenumber =models.CharField (max_length=16)
     age = models.IntegerField(null=True)
 
 
 class Wallet(models.Model):  
-   customer = models.ForeignKey(default=1,on_delete=models.CASCADE, to = Customer)
+   customer = models.ForeignKey(null=True,on_delete=models.CASCADE, to = Customer)
    currency = models.CharField(max_length=50,null=True)
    pin = models.PositiveSmallIntegerField()
    date_created = models.DateTimeField(default=datetime.now)
@@ -63,7 +63,7 @@ class Thirdparty(models.Model):
 
 
 class Notification(models.Model):
-    id=models.PositiveSmallIntegerField(primary_key=True)
+    id_notification=models.PositiveSmallIntegerField(primary_key=True)
     name=models.CharField(max_length=15,null=True)
     date_and_time=models.DateTimeField(default=datetime.now)
     status=models.CharField(max_length=6)
@@ -72,10 +72,10 @@ class Loan(models.Model):
     loan_number=models.IntegerField(null=True)
     amount=models.BigIntegerField(null=True)
     dateandtime=models.DateTimeField(default=datetime.now)
-    wallet=models.ForeignKey(null=True,on_delete=models.CASCADE,to=Wallet)
     loanbalance=models.IntegerField(null=True)
     loanterm=models.IntegerField(null=True)
     payduedate=models.DateTimeField(default=datetime.now)
+    customer=models.ForeignKey(Customer,on_delete=models.CASCADE,null=True)
 
 class Reward(models.Model):
     transaction=models.ForeignKey(on_delete=models.CASCADE,to=Transaction)
